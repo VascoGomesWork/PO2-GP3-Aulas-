@@ -2,6 +2,7 @@ package pt.ipbeja.po2.tictactoe.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import pt.ipbeja.po2.tictactoe.model.*;
 
@@ -45,23 +46,23 @@ public class TicTacToeBoard extends GridPane implements View {
         System.out.println("Row = " + position.getRow());
         System.out.println("Col = " + position.getCol());
 
-        //TODO - Mal Feito
-        if(mark.equals(mark.O_MARK)){
-            this.buttons[position.getRow()][position.getCol()].setX();
-        } else {
-            this.buttons[position.getRow()][position.getCol()].setO();
-        }
+        //Delegates this task to the Button
+        this.buttons[position.getRow()][position.getCol()].setMark(mark);
 
     }
 
     @Override
     public void onGameWon(Player player) {
-
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Player " + player + " Won!");
+        alert.showAndWait();
     }
 
     @Override
     public void onGameDraw() {
-
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Game Endeded on a Draw");
+        alert.showAndWait();
     }
 
     private class ButtonHandler implements EventHandler<ActionEvent> {

@@ -5,5 +5,8 @@ package pt.ipbeja.po2.tictactoe.model;
  * @date 23/03/2022
  */
 public enum Mark {
-    EMPTY, X_MARK, O_MARK
+    EMPTY, X_MARK, O_MARK;
+
+    private int isDisabled = 0;
+
 }

@@ -2,6 +2,7 @@ package pt.ipbeja.po2.tictactoe.gui;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import pt.ipbeja.po2.tictactoe.model.Mark;
 
 /**
  * @author Vasco Gomes 19921
@@ -34,5 +35,23 @@ public class TicTacToeButton extends Button {
 
     public int getCol(){
         return this.col;
+    }
+
+    public void setMark(Mark mark) {
+        switch (mark){
+
+            case EMPTY:{
+                this.setGraphic(new ImageView("resources/noplayer.png"));
+            }
+                break;
+            case X_MARK:{
+                setO();
+            }
+                break;
+            case O_MARK:{
+                setX();
+            }
+                break;
+        }
     }
 }

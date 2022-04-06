@@ -12,6 +12,7 @@ public class TicTacToeGame {
     Mark[][] board;
     View view;
     private int turnCounter;
+    private int positionCounter = 0;
 
     public TicTacToeGame(int SIZE){
         initBoard(SIZE);
@@ -38,16 +39,17 @@ public class TicTacToeGame {
         if(isValidPlay(position)){
             //TODO realizar a jogada
             board[position.getRow()][position.getCol()] = getCurrentPlayer().getMark();
-            turnCounter++;
             view.onBoardMarkChanged(getCurrentPlayer().getMark(), position);
+            turnCounter++;
 
             //Checks if the game is ended after 5 plays
-            if(turnCounter >= 5){
+            if(turnCounter >= board.length * 2 - 1){
                 //Checks if a player won
                 if(!checkPlayerWon(position)) {
                     //Checks if it draws
-                    checkDraw();
+                    if(checkDraw()) view.onGameDraw();
                 }
+                view.onGameWon(getCurrentPlayer());
             }
 
         }
@@ -56,34 +58,86 @@ public class TicTacToeGame {
     private boolean checkPlayerWon(Position position) {
 
         //TODO - Verificar os lados e as 2 diagonais
-        /*for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if(board[i][j] != Mark.EMPTY && j == board.length - 1){
-                    System.out.println("Cima");
-                    break;
-                }
-            }
-        }*/
 
-        /*if(board[0][board.length - 1] != Mark.EMPTY){
-            System.out.println("Cima");
+        //Lines and Columns
+        if(checkRow(position) || checkCol(position) || checkDiagonal(position) || checkAntiDiagonal(position)){
+            System.out.println("Linha ou Coluna toda preenchida");
+            return true;
         }
-
-        if(board[board.length - 1][0] != Mark.EMPTY){
-            System.out.println("Esquerdo");
-        }
-        if(board[board.length - 1][2] != Mark.EMPTY){
-            System.out.println("Direito");
-        }
-        if(board[2][board.length - 1] != Mark.EMPTY){
-            System.out.println("Baixo");
-        }*/
         return false;
     }
 
-    private void checkDraw() {
-        //Calls View
+    private boolean checkRow(Position position){
+
+        for (int j = 0; j < board.length - 1; j++) {
+            Mark a = board[position.getRow()][j];
+            Mark b = board[position.getRow()][j + 1];
+            if(a != b) return false;
+        }
+        return true;
     }
+
+    private boolean checkCol(Position position){
+
+        for (int i = 0; i < board.length - 1; i++) {
+            Mark a = board[i][position.getCol()];
+            Mark b = board[i + 1][position.getCol()];
+            if(a != b) return false;
+        }
+        return true;
+    }
+
+    private boolean checkDiagonal(Position position){
+        if(position.getRow() != position.getCol()) return false;
+
+            for (int i = 0; i < board.length - 1; i++) {
+                Mark a = board[i][i];
+                Mark b = board[i + 1][i + 1];
+                if (a != b) return false;
+            }
+            return true;
+    }
+
+    /* 0 + 2 = 2
+       1 + 1 = 2
+       2 + 0 = 2
+     */
+    private boolean checkAntiDiagonal(Position position){
+        if(position.getRow() + position.getCol() != board.length - 1) return false;
+
+        for (int i = 0; i < board.length - 1; i++) {
+            int j = (board.length - 1) - i;
+            Mark a = board[i][j];
+            Mark b = board[i + 1][j - 1];
+            if (a != b) return false;
+        }
+        return true;
+    }
+
+    private boolean checkDraw() {
+        //Calls View
+        if(turnCounter == board.length * board.length){
+            return true;
+        }
+        return false;
+    }
+
+    /*private boolean checkRow(Position position){
+
+        Mark[] boardLine = board[position.getRow()];
+
+        for (int i = 1; i < board.length; i++) {
+            if(boardLine[0].equals(boardLine[i])){
+                System.out.println("Linha Igual = " + boardLine[i]);
+                positionCounter++;
+                if(positionCounter == boardLine.length){
+                    System.out.println("TUDO IGUAL");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }*/
 
     private boolean isValidPlay(Position position) {
 
