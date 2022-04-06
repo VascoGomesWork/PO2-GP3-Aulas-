@@ -12,7 +12,7 @@ import pt.ipbeja.po2.tictactoe.model.*;
  */
 public class TicTacToeBoard extends GridPane implements View {
 
-    private final int SIZE = 3;
+    private int SIZE;
     private int counter = 0;
     private TicTacToeGame gameModel;
     private Position position;
@@ -22,6 +22,7 @@ public class TicTacToeBoard extends GridPane implements View {
     public TicTacToeBoard(TicTacToeGame ticTacToeGame) {
         this.gameModel = ticTacToeGame;
         this.gameModel.setView(this);
+        SIZE = gameModel.getSize();
         this.buttons = new TicTacToeButton[SIZE][SIZE];
         this.createBoard();
     }

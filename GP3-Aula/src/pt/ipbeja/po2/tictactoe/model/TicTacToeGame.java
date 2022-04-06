@@ -8,26 +8,35 @@ import java.util.Arrays;
  */
 public class TicTacToeGame {
 
-    //private final int SIZE = 3;
+    private int SIZE = 3;
     Mark[][] board;
     View view;
     private int turnCounter;
     private int positionCounter = 0;
 
+    public TicTacToeGame(){
+        initBoard();
+    }
+
     public TicTacToeGame(int SIZE){
-        initBoard(SIZE);
+        this.SIZE = SIZE;
+        initBoard();
     }
 
     public void setView(View view){
         this.view = view;
     }
 
-    private void initBoard(int SIZE) {
-        board = new Mark[SIZE][SIZE];
-        for (int line = 0; line < SIZE; line++) {
+    private void initBoard() {
+        board = new Mark[this.SIZE][this.SIZE];
+        for (int line = 0; line < this.SIZE; line++) {
             //Preenche o tabuleiro com Mark.EMPTY
             Arrays.fill(board[line], Mark.EMPTY);
         }
+    }
+
+    public int getSize(){
+        return this.SIZE;
     }
 
     public Player getCurrentPlayer(){
